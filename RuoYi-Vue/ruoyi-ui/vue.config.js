@@ -6,9 +6,9 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || '若依管理系统' // 标题
-
-const port = process.env.port || process.env.npm_config_port || 80 // 端口
+const name = defaultSettings.title || '商品管理系统' // 标题
+// 修改前端端口号的地方
+const port = process.env.port || process.env.npm_config_port || 8082 
 
 // vue.config.js 配置说明
 //官方vue.config.js 参考文档 https://cli.vuejs.org/zh/config/#css-loaderoptions

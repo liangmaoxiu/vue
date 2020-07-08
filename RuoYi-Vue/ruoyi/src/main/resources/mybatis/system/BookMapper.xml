@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.BookMapper">
+    
+    <resultMap type="Book" id="BookResult">
+        <result property="bookId"    column="book_id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="price"    column="price"    />
+        <result property="grade"    column="grade"    />
+        <result property="loginIp"    column="login_ip"    />
+        <result property="loginDate"    column="login_date"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="stock"    column="stock"    />
+    </resultMap>
+
+    <sql id="selectBookVo">
+        select book_id, code, name, price, grade, remark, stock from book
+    </sql>
+
+    <select id="selectBookList" parameterType="Book" resultMap="BookResult">
+        <include refid="selectBookVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="remark != null  and remark != ''"> and remark = #{remark}</if>
+            <if test="stock != null  and stock != ''"> and stock = #{stock}</if>
+        </where>
+    </select>
+
+    <select id="selectBookById" parameterType="Long" resultMap="BookResult">
+        <include refid="selectBookVo"/>
+        where book_id = #{bookId}
+    </select>
+        
+    <insert id="insertBook" parameterType="Book" useGeneratedKeys="true" keyProperty="bookId">
+        insert into book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="price != null">price,</if>
+            <if test="grade != null and grade != ''">grade,</if>
+            <if test="loginIp != null">login_ip,</if>
+            <if test="loginDate != null">login_date,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="stock != null">stock,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="price != null">#{price},</if>
+            <if test="grade != null and grade != ''">#{grade},</if>
+            <if test="loginIp != null">#{loginIp},</if>
+            <if test="loginDate != null">#{loginDate},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="stock != null">#{stock},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBook" parameterType="Book">
+        update book
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="grade != null and grade != ''">grade = #{grade},</if>
+            <if test="loginIp != null">login_ip = #{loginIp},</if>
+            <if test="loginDate != null">login_date = #{loginDate},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="stock != null">stock = #{stock},</if>
+        </trim>
+        where book_id = #{bookId}
+    </update>
+
+    <delete id="deleteBookById" parameterType="Long">
+        delete from book where book_id = #{bookId}
+    </delete>
+
+    <delete id="deleteBookByIds" parameterType="String">
+        delete from book where book_id in 
+        <foreach item="bookId" collection="array" open="(" separator="," close=")">
+            #{bookId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -40,7 +40,7 @@ public class SysLoginService
      * 
      * @param username 用户名
      * @param password 密码
-     * @param captcha 验证码
+     * @param code 验证码
      * @param uuid 唯一标识
      * @return 结果
      */
@@ -64,8 +64,7 @@ public class SysLoginService
         try
         {
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
-            authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         }
         catch (Exception e)
         {
